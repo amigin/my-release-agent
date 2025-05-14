@@ -43,6 +43,7 @@ pub async fn release(app: &AppContext, configuration_id: &str) -> Result<String,
 
 async fn execute_bash_command(mut args: Vec<&str>) -> Result<(), String> {
     let command_str = format!("{:?}", args);
+
     let mut command = tokio::process::Command::new(args.remove(0));
 
     while args.len() > 0 {
@@ -62,3 +63,5 @@ async fn execute_bash_command(mut args: Vec<&str>) -> Result<(), String> {
         Err(err) => Err(format!("{:?}", err)),
     }
 }
+
+

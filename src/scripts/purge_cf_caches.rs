@@ -3,10 +3,12 @@ use serde::*;
 
 pub async fn purge_cf_caches(api_key: &str, zone_id: &str) -> Result<String, String> {
     let model = PurgeCacheContent {
-        tags: vec!["purge_everything".to_string()],
+        purge_everything: true,
     };
 
     let auth_header = format!("Bearer {}", api_key);
+
+    println!("Purge cache in zone: {}", zone_id);
 
     let mut response = FlUrl::new("https://api.cloudflare.com")
         .append_path_segment("client")
@@ -37,5 +39,5 @@ pub async fn purge_cf_caches(api_key: &str, zone_id: &str) -> Result<String, Str
 
 #[derive(Serialize, Deserialize)]
 pub struct PurgeCacheContent {
-    pub tags: Vec<String>,
+    pub purge_everything: bool,
 }
