@@ -1,0 +1,21 @@
+[package]
+name = "release-agent"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+service-sdk = { tag = "0.4.1", git = "https://github.com/MyJetTools/service-sdk.git", features = [
+    "websockets",
+    "grpc",
+    "macros",
+] }
+
+
+tokio = { version = "*", features = ["full"] }
+prost = "*"
+serde = { version = "*", features = ["derive"] }
+serde_json = "*"
+tokio-util = "*"
+futures = "*"
+futures-util = "*"
+async-trait = "*"
