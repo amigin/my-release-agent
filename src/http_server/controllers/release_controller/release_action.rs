@@ -28,7 +28,7 @@ impl ReleaseAction {
 async fn handle_request(
     action: &ReleaseAction,
     input_data: ReleaseHttpInputModel,
-    ctx: &HttpContext,
+    _ctx: &HttpContext,
 ) -> Result<HttpOkResult, HttpFailResult> {
     match crate::flows::release(&action.app, &input_data.id).await {
         Ok(mut ok) => {

@@ -5,6 +5,7 @@ use app::AppContext;
 mod app;
 mod flows;
 mod http_server;
+mod scripts;
 mod settings;
 
 #[tokio::main]

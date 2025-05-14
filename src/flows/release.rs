@@ -28,6 +28,16 @@ pub async fn release(app: &AppContext, configuration_id: &str) -> Result<String,
     execute_bash_command(vec!["docker-compose", "-f", file.as_str(), "up", "-d"]).await?;
     result.push_str("Docker compose up -d ok\n");
 
+    if let Some(cloud_flare_config) = cloud_flare_config {
+        let mut cloud_flare_config = cloud_flare_config.split(':');
+
+        let api_key = cloud_flare_config.next().unwrap();
+        let zone_id = cloud_flare_config.next().unwrap();
+        let mut cf_purge_result = crate::scripts::purge_cf_caches(api_key, zone_id).await?;
+        cf_purge_result.push('\n');
+        result.push_str(cf_purge_result.as_str());
+    }
+
     Ok(result)
 }
 
