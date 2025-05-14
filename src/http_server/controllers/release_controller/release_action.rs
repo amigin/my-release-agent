@@ -1,9 +1,10 @@
-service_sdk::macros::use_my_http_server!();
+use my_http_server::{macros::*, *};
+
 use std::sync::Arc;
 
 use crate::app::AppContext;
 
-#[service_sdk::my_http_server::macros::http_route(
+#[my_http_server::macros::http_route(
     method: "POST",
     route: "/api/release/v1",
     summary: "Release Service",

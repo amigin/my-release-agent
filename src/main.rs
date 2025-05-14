@@ -9,16 +9,11 @@ mod settings;
 
 #[tokio::main]
 async fn main() {
-    let settings_reader = crate::settings::SettingsReader::new(".release-agent").await;
+    let settings_reader = crate::settings::SettingsReader::new("~/.release-agent").await;
     let settings_reader = Arc::new(settings_reader);
+    let app = AppContext::new(settings_reader).await;
+    let app = Arc::new(app);
 
-    let mut service_context = service_sdk::ServiceContext::new(settings_reader.clone()).await;
-
-    let app = Arc::new(AppContext::new(settings_reader, &service_context).await);
-
-    service_context.configure_http_server(|builder| {
-        http_server::builder::build_controllers(&app, builder);
-    });
-
-    service_context.start_application().await;
+    crate::http_server::setup_server(&app);
+    app.app_states.wait_until_shutdown().await;
 }

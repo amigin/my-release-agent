@@ -1,5 +1,3 @@
-use service_sdk::rust_extensions;
-
 use crate::app::AppContext;
 
 pub async fn release(app: &AppContext, configuration_id: &str) -> Result<String, String> {
