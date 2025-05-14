@@ -23,7 +23,10 @@ pub async fn release(app: &AppContext, configuration_id: &str) -> Result<String,
     let mut result = String::new();
 
     execute_bash_command(vec!["docker-compose", "-f", file.as_str(), "pull"]).await?;
-    result.push_str("Docker compose pull ok");
+    result.push_str("Docker compose pull ok\n");
+
+    execute_bash_command(vec!["docker-compose", "-f", file.as_str(), "up", "-d"]).await?;
+    result.push_str("Docker compose up -d ok\n");
 
     Ok(result)
 }
