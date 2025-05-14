@@ -31,8 +31,14 @@ async fn handle_request(
     ctx: &HttpContext,
 ) -> Result<HttpOkResult, HttpFailResult> {
     match crate::flows::release(&action.app, &input_data.id).await {
-        Ok(ok) => HttpOutput::as_text(ok).into_ok_result(true).into(),
-        Err(err) => HttpOutput::as_text(err).into_fail_result(500, false),
+        Ok(mut ok) => {
+            ok.push('\n');
+            HttpOutput::as_text(ok).into_ok_result(true).into()
+        }
+        Err(mut err) => {
+            err.push('\n');
+            HttpOutput::as_text(err).into_fail_result(500, false)
+        }
     }
 }
 
